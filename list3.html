@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Liste der Animationen für Karo</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.14.1/lodash.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Nunito:700&display=swap" rel="stylesheet">
+<style>
+
+.list-complete-item {
+    transition: all 1s;
+    display: inline-block;
+    margin-right: 10px;
+}
+.list-complete-enter, .list-complete-leave-to {
+    opacity: 0;
+    transform: translateY(30px);
+}
+.list-complete-leave-active {
+    position: absolute;
+}
+
+a {
+  position: relative;
+  display: inline-block;
+  padding: 1.2em 2em;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+  color: white;
+}
+a::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: linear-gradient(135deg, #6e8efb, #a777e3);
+  border-radius: 4px;
+  transition: box-shadow 0.5s ease, transform 0.2s ease;
+  will-change: transform;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, .2);
+  transform: translateY(var(--ty, 0)) rotateX(var(--rx, 0)) rotateY(var(--ry, 0)) translateZ(var(--tz, -12px));
+}
+a:hover::before {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, .3);
+}
+a::after {
+  position: relative;
+  display: inline-block;
+  content: attr(data-title);
+  transition: transform 0.2s ease;
+  font-weight: bold;
+  letter-spacing: 0.01em;
+  will-change: transform;
+  transform: translateY(var(--ty, 0)) rotateX(var(--rx, 0)) rotateY(var(--ry, 0));
+}
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  transform-style: preserve-3d;
+  transform: perspective(800px);
+  font-family: 'Nunito', sans-serif;
+}
+span {
+    font-size: 6em;
+}
+
+</style> 
+</head>
+<body>
+    <div id="list-complete-demo" class="demo">
+        <h2>
+            Liste der Animationen
+        </h2>
+        <a v-on:click="shuffle" >Mischen</a>
+        <h2>
+            für Karo
+        </h2>        
+        <a v-on:click="add" >Hinzufügen</a>
+        <h2>
+            und verschiedene Tasten
+        </h2>   
+        <a v-on:click="remove" >Entfernen</a>
+
+        <transition-group name="list-complete" tag="p">
+            <span 
+                v-for="item in items"
+                v-bind:key="item"
+                class="list-complete-item"
+            >
+                {{ item }}
+            </span>
+        </transition-group>
+    </div>
+<script src="list3.js"></script>
+<script>
+var $button = document.querySelector('.button');
+$button.addEventListener('click', function() {
+  var duration = 0.3,
+      delay = 0.08;
+  TweenMax.to($button, duration, {scaleY: 1.6, ease: Expo.easeOut});
+  TweenMax.to($button, duration, {scaleX: 1.2, scaleY: 1, ease: Back.easeOut, easeParams: [3], delay: delay});
+  TweenMax.to($button, duration * 1.25, {scaleX: 1, scaleY: 1, ease: Back.easeOut, easeParams: [6], delay: delay * 3 });
+});
+</script>
+</body>
+</html>
